@@ -3,9 +3,11 @@ package com.havrun.bookTrackerAPI.Services;
 import com.havrun.bookTrackerAPI.DTO.*;
 import com.havrun.bookTrackerAPI.Repository.RefreshTokenRepository;
 import com.havrun.bookTrackerAPI.Repository.UserRepository;
+import com.havrun.bookTrackerAPI.Services.Tokens.JwtService;
+import com.havrun.bookTrackerAPI.Services.Tokens.RefreshTokenService;
 import com.havrun.bookTrackerAPI.entity.RefreshToken;
-import com.havrun.bookTrackerAPI.entity.Role;
-import com.havrun.bookTrackerAPI.entity.User;
+import com.havrun.bookTrackerAPI.entity.User.Role;
+import com.havrun.bookTrackerAPI.entity.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +39,7 @@ public class AuthenticationService {
         var accessToken = jwtService.generateToken(user);
         return JwtResponse.builder()
                 .accessToken(accessToken)
-                .token(refreshToken.toString())
+                .refreshToken(refreshToken.toString())
                 .build();
     }
 
@@ -56,7 +58,7 @@ public class AuthenticationService {
         var accessToken = jwtService.generateToken(user);
         return JwtResponse.builder()
                 .accessToken(accessToken)
-                .token(refreshToken.getToken())
+                .refreshToken(refreshToken.getToken())
                 .build();
     }
 
@@ -69,7 +71,7 @@ public class AuthenticationService {
                             var accessToken = jwtService.generateToken(user);
                             return JwtResponse.builder()
                                     .accessToken(accessToken)
-                                    .token(token.getToken())
+                                    .refreshToken(token.getToken())
                                     .build();
                         }
                         )

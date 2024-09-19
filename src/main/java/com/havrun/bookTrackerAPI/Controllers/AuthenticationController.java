@@ -26,11 +26,18 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ){
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(
+
+    ){
+        return null;
     }
 
     @PostMapping("/refresh")
