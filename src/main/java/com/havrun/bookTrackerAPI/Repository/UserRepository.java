@@ -1,6 +1,6 @@
 package com.havrun.bookTrackerAPI.Repository;
 
-import com.havrun.bookTrackerAPI.entity.User;
+import com.havrun.bookTrackerAPI.entity.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

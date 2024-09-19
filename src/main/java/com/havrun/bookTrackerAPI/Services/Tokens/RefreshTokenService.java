@@ -1,7 +1,8 @@
-package com.havrun.bookTrackerAPI.Services;
+package com.havrun.bookTrackerAPI.Services.Tokens;
 
 import com.havrun.bookTrackerAPI.Repository.RefreshTokenRepository;
 import com.havrun.bookTrackerAPI.Repository.UserRepository;
+import com.havrun.bookTrackerAPI.config.applicationProperty.JwtConfig;
 import com.havrun.bookTrackerAPI.entity.RefreshToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
+    private final JwtConfig jwtConfig;
 
     public RefreshToken createRefreshToken(String username) {
 
@@ -22,7 +24,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(user)
                 .token(UUID.randomUUID().toString())
-                .expireDate( new Date(System.currentTimeMillis() + 1000 * 120)) // 7 days
+                .expireDate( new Date(System.currentTimeMillis() + jwtConfig.getExpirationTime().getRefresh()))
                 .build();
 
         return refreshTokenRepository.save(refreshToken);

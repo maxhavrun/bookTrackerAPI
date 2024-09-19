@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bookTrackerAPI
-    username: postgres
-    password: 1234
+    url: "${SPRING_DATASOURCE_URL}"
+    username: "${SPRING_DATASOURCE_USERNAME}"
+    password: "${SPRING_DATASOURCE_PASSWORD}"
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -16,5 +16,29 @@ spring:
         format_sql: true
 
     database: postgresql
-
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  jwt:
+    secret-key: "${JWT_SECRET_KEY}"
+    expiration-time:
+      access: 900000
+      refresh: 1296000000
+
+  mail:
+    host: "smtp.gmail.com"
+    port: "587"
+    username: "${SUPPORT_EMAIL}"
+    password: "${APP_PASSWORD}"
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  api:
+    url: "http://localhost:8080"
+
+  config:
+    import: "optional:file:.env[.properties]"

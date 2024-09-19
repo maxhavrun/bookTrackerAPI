@@ -1,4 +1,4 @@
-package com.havrun.bookTrackerAPI.entity;
+package com.havrun.bookTrackerAPI.entity.User;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
