@@ -1,9 +1,9 @@
 package com.havrun.bookTrackerAPI.Controllers;
 
-import com.havrun.bookTrackerAPI.DTO.AuthenticationRequest;
+import com.havrun.bookTrackerAPI.DTO.auth.LoginDTO;
 import com.havrun.bookTrackerAPI.DTO.JwtResponse;
 import com.havrun.bookTrackerAPI.DTO.RefreshTokenRequest;
-import com.havrun.bookTrackerAPI.DTO.RegisterRequest;
+import com.havrun.bookTrackerAPI.DTO.auth.RegistrationDTO;
 import com.havrun.bookTrackerAPI.Services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +21,14 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<JwtResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody RegistrationDTO request
     ){
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+            @RequestBody LoginDTO request
     ){
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }

@@ -1,6 +1,8 @@
 package com.havrun.bookTrackerAPI.Services;
 
 import com.havrun.bookTrackerAPI.DTO.*;
+import com.havrun.bookTrackerAPI.DTO.auth.LoginDTO;
+import com.havrun.bookTrackerAPI.DTO.auth.RegistrationDTO;
 import com.havrun.bookTrackerAPI.Repository.RefreshTokenRepository;
 import com.havrun.bookTrackerAPI.Repository.UserRepository;
 import com.havrun.bookTrackerAPI.Services.Tokens.JwtService;
@@ -21,12 +23,17 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+
+    private final PasswordEncoder passwordEncoder;
+
     private final AuthenticationManager authenticationManager;
 
-    public JwtResponse register(RegisterRequest request) {
+    private final EmailService emailService;
+
+    public JwtResponse register(RegistrationDTO request) {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -43,7 +50,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public JwtResponse authenticate(AuthenticationRequest request) {
+    public JwtResponse authenticate(LoginDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
