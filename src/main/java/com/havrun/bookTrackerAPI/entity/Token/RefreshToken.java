@@ -1,4 +1,4 @@
-package com.havrun.bookTrackerAPI.entity;
+package com.havrun.bookTrackerAPI.entity.Token;
 
 import com.havrun.bookTrackerAPI.entity.User.User;
 import jakarta.persistence.*;

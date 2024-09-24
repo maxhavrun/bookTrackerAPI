@@ -1,6 +1,6 @@
 package com.havrun.bookTrackerAPI.Repository;
 
-import com.havrun.bookTrackerAPI.entity.RefreshToken;
+import com.havrun.bookTrackerAPI.entity.Token.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

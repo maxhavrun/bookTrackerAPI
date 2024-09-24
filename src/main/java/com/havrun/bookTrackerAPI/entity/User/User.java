@@ -1,5 +1,6 @@
 package com.havrun.bookTrackerAPI.entity.User;
 
+import com.havrun.bookTrackerAPI.entity.Book.BookRental;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-
-//Using generated security password: b0d5c8d3-70ef-4638-9391-7f7ad0a62b47
 
 @Data
 @Builder
@@ -51,6 +50,9 @@ public class User implements UserDetails {
 
     @Column(name = "account_non_locked", nullable = false)
     private boolean accountNonLocked;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookRental> rentedBooks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

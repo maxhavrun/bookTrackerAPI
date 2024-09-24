@@ -28,7 +28,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final VerificationService verificationService;
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<SignUpResponseDTO> register(
             @Valid @RequestBody SignUpDTO request
     ){
@@ -44,7 +44,7 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-    @PostMapping("/verify")
+    @PostMapping("/verify-user")
     public ResponseEntity<?> verify(
             @Valid @RequestBody VerificationDTO verificationDTO
             ){
@@ -74,7 +74,7 @@ public class AuthenticationController {
         return null;
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/refresh-token")
     public ResponseEntity<JwtResponse> refreshToken(
             @RequestBody RefreshTokenRequest token
     ){

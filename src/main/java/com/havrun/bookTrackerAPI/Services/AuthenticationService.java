@@ -6,7 +6,7 @@ import com.havrun.bookTrackerAPI.DTO.auth.SignUpDTO;
 import com.havrun.bookTrackerAPI.Repository.RefreshTokenRepository;
 import com.havrun.bookTrackerAPI.Repository.UserRepository;
 import com.havrun.bookTrackerAPI.Services.Tokens.JwtService;
-import com.havrun.bookTrackerAPI.entity.RefreshToken;
+import com.havrun.bookTrackerAPI.entity.Token.RefreshToken;
 import com.havrun.bookTrackerAPI.entity.User.Role;
 import com.havrun.bookTrackerAPI.entity.User.User;
 import com.havrun.bookTrackerAPI.exception.auth.*;

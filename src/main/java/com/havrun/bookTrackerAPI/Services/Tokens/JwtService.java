@@ -2,7 +2,7 @@ package com.havrun.bookTrackerAPI.Services.Tokens;
 
 import com.havrun.bookTrackerAPI.Repository.RefreshTokenRepository;
 import com.havrun.bookTrackerAPI.Repository.UserRepository;
-import com.havrun.bookTrackerAPI.entity.RefreshToken;
+import com.havrun.bookTrackerAPI.entity.Token.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
