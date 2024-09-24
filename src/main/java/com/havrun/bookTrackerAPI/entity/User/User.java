@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,6 +40,18 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "verification_expiration")
+    private LocalDateTime verificationCodeExpiresAt;
+
+    @Column(name = "account_enabled", nullable = false)
+    private boolean accountEnabled;
+
+    @Column(name = "account_non_locked", nullable = false)
+    private boolean accountNonLocked;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -52,19 +65,16 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
-        //return UserDetails.super.isAccountNonLocked();
+        return accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-        //return UserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
-        //return UserDetails.super.isEnabled();
+        return accountEnabled;
     }
 }
