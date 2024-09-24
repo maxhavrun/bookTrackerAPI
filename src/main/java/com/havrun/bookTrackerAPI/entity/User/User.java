@@ -40,10 +40,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "verification_code", nullable = true)
+    @Column(name = "verification_code")
     private String verificationCode;
 
-    @Column(name = "verification_expiration", nullable = true)
+    @Column(name = "verification_expiration")
     private LocalDateTime verificationCodeExpiresAt;
 
     @Column(name = "account_enabled", nullable = false)

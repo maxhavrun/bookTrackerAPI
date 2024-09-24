@@ -1,5 +1,8 @@
 package com.havrun.bookTrackerAPI.Services.Tokens;
 
+import com.havrun.bookTrackerAPI.Repository.RefreshTokenRepository;
+import com.havrun.bookTrackerAPI.Repository.UserRepository;
+import com.havrun.bookTrackerAPI.entity.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -8,9 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import com.havrun.bookTrackerAPI.config.applicationProperty.JwtConfig;
@@ -20,6 +21,8 @@ import com.havrun.bookTrackerAPI.config.applicationProperty.JwtConfig;
 public class JwtService {
 
     private final JwtConfig jwtConfig;
+    private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public String getUsernameFromJwt(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -30,11 +33,11 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateAccessToken(UserDetails userDetails) {
+        return generateAccessToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(
+    public String generateAccessToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
@@ -47,16 +50,16 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isAccessTokenValid(String token, UserDetails userDetails) {
         final String username = getUsernameFromJwt(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && !isAccessTokenExpired(token));
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    private boolean isAccessTokenExpired(String token) {
+        return extractAccessExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    private Date extractAccessExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
@@ -70,6 +73,31 @@ public class JwtService {
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
+    }
+
+    // Refresh token
+    public RefreshToken createRefreshToken(String username) {
+
+        var user = userRepository.findByUsername(username).orElseThrow();
+        RefreshToken refreshToken = RefreshToken.builder()
+                .user(user)
+                .token(UUID.randomUUID().toString())
+                .expireDate( new Date(System.currentTimeMillis() + jwtConfig.getExpirationTime().getRefresh()))
+                .build();
+
+        return refreshTokenRepository.save(refreshToken);
+    }
+
+    public Optional<RefreshToken> findByRefreshToken(String token) {
+        return refreshTokenRepository.findByToken(token);
+    }
+
+    public RefreshToken verifyRefreshTokenExpiration(RefreshToken token) {
+        if (token.getExpireDate().before(new Date())) {
+            refreshTokenRepository.delete(token);
+            throw  new RuntimeException(token.getToken() + " is expired");
+        }
+        return token;
     }
 
 }
